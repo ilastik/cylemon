@@ -423,19 +423,22 @@ cdef class IndexAccessor(object):
     other values mean set to this value
     """
     indices = self._indexVol[key].ravel()
-    if not isinstance(value, np.ndarray):
-      a = np.ndarray(indices.shape, self._lut.dtype)
-      a[:] = value
-      value = a
-    values = value.ravel()
+    if isinstance(value, int) or isinstance(value, np.integer):
+        # Shortcut for non-array values
+        if value == 255 or value == -1:
+            self._lut[indices] = 0
+        elif value != 0:
+            self._lut[indices] = value
+    else:
+        values = value.ravel()
+        
+        indicesindices = np.where((values != 0) * (values != 255))[0]
+        deleteindices = np.where(values == 255)[0]
+        subindices = indices[indicesindices]
+        self._lut[subindices] = values[indicesindices]
     
-    indicesindices = np.where((values != 0) * (values != 255))[0]
-    deleteindices = np.where(values == 255)[0]
-    subindices = indices[indicesindices]
-    self._lut[subindices] = values[indicesindices]
-
-    deletesubindices = indices[deleteindices]
-    self._lut[deletesubindices] = 0
+        deletesubindices = indices[deleteindices]
+        self._lut[deletesubindices] = 0
 
 # cdef fusion int32_2and3dimension:
 #   np.ndarray[dtype=np.int32_t,ndim=3]
