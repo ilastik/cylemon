@@ -39,7 +39,7 @@ try:
     if sys.platform.startswith("win"):
         for i,d in (include_dirs):
             include_dirs[i] = d.replace('\\', '/')
-        libaries = ["lemon"]
+        libraries = ["lemon"]
         compile_args = ["-O2", "-EHsc"]
         if has_openmp:
             compile_args.append( "-openmp" )
@@ -48,11 +48,11 @@ try:
     else:
         if provide_extra_includes:
             include_dirs.append( '/usr/local/include' )
-        libaries = ["stdc++", "emon"]
+        libraries = ["stdc++", "emon"]
         compile_args = ['-O3']
         if has_openmp:
             compile_args.append( "-fopenmp" )
-            libaries.append("gomp")
+            libraries.append("gomp")
         else:
             compile_args+= ["-D", "CYLEMON_NO_OPENMP"]
     
@@ -74,7 +74,7 @@ try:
         ext_modules = [Extension(name="cylemon.segmentation",
                         sources=["cylemon/segmentation.pyx"],
                         language='C++',
-                        libraries=libaries,
+                        libraries=libraries,
                         extra_compile_args=compile_args,
                         include_dirs=include_dirs)
                       ]
