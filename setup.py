@@ -48,10 +48,11 @@ try:
     else:
         if provide_extra_includes:
             include_dirs.append( '/usr/local/include' )
-        libaries = ["stdc++", "emon", "gomp"]
+        libaries = ["stdc++", "emon"]
         compile_args = ['-O3']
         if has_openmp:
             compile_args.append( "-fopenmp" )
+            libaries.append("gomp")
         else:
             compile_args+= ["-D", "CYLEMON_NO_OPENMP"]
     
