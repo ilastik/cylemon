@@ -14,7 +14,8 @@
 #endif
 
 using namespace lemon;
-using namespace std;
+using std::vector;
+using std::deque;
                                                           
 template <typename GT, typename NMS, typename AMF, typename NMF>
 void prioMSTmargin(const GT &graph, const NMS & seeds, const AMF & weights, NMF & margin, const vector<float> &prio) {
