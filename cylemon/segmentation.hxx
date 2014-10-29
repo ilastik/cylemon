@@ -531,7 +531,7 @@ void prioMSTperturb(const GT &graph, const NMS & seeds, NMS2 &segmentation, cons
       printf("SCALING UNCERTAINTY TO %f (ROUND %d)\n",perturbation,numTries);
     }
     else if(numTries > 1) {
-      printf("FOUND UNCERTAINTY OF %d (ROUND %d)\n",maxUncertainty, numTries);
+      printf("FOUND UNCERTAINTY OF %ld (ROUND %d)\n",maxUncertainty, numTries);
     }
   }
 

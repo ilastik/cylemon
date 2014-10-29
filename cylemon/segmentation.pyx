@@ -66,7 +66,7 @@ cdef ArcMap[float]* arcMapByLabels(Graph *digraph,
                       float (*edgeValueCallback)(float[:]),
                       object precomputedEdgeWeights,
                       object progressCallback
-                      ):
+                      ) except +:
   """
   builds the adjacency graph structure for an 3D image.
 
@@ -104,7 +104,7 @@ cdef ArcMap[float]* arcMapByLabels(Graph *digraph,
   cdef np.ndarray[dtype=np.int32_t,ndim=1] neighborCount = np.zeros((maxLabel+1,), dtype=np.int32)
   print "   neighborCount: %f MB" % (neighborCount.nbytes / float(1024**2),) 
 
-  cdef int totalNeighborhoods = 0
+  cdef long totalNeighborhoods = 0
 
   timeStart = time.time()
   # count the number of labels
@@ -146,6 +146,7 @@ cdef ArcMap[float]* arcMapByLabels(Graph *digraph,
 
   neighborhood_t = np.dtype([('a', np.int32), ('b', np.int32), ('val', np.float32)], align = True)
 
+  print "    totalNeighborhoods: %s"%(totalNeighborhoods)
   bbb = np.ndarray((totalNeighborhoods,),dtype=neighborhood_t)
   print "   bbb: %f MB" % (bbb.nbytes / float(1024**2),) 
   cdef np.ndarray[dtype=neighborhood_t_t, ndim=1]  neighbors = bbb
